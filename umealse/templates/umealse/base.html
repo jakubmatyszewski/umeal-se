@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link href="{% static 'css/umealse.css'%}" rel="stylesheet">
+    </head>
+    <body>
+        umeal.se
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

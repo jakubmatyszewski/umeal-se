@@ -1,0 +1,13 @@
+{% extends "umealse/base.html" %}
+
+{% block title %} umeal.se {% endblock %}
+
+{% block content %}
+    {% for event in events %}
+    <div>
+        <a href="{{ event.get_absolute_url }}">
+            {{ event.title }}
+        </a>
+    </div>
+    {% endfor %}
+{% endblock %}
