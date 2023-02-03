@@ -5,9 +5,16 @@
 {% block content %}
     {% for event in events %}
     <div>
-        <a href="{{ event.get_absolute_url }}">
-            {{ event.title }}
-        </a>
+        <h2>
+            <a href="{{ event.get_absolute_url }}">
+                {{ event.title }}
+            </a>
+        </h2>
+        <p class="date">Published {{ event.publish }} by {{ event.host }}</p>
+        <div>
+            {{ event.body|truncatewords:30|linebreaks }}
+        </div>
     </div>
     {% endfor %}
+    {% include "pagination.html" with page=events %}
 {% endblock %}

@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 def event_list(request: HttpRequest) -> HttpResponse:
     '''Generate view enlisting all published events.'''
     events = Event.published.all()
-    paginator = Paginator(event_list, 10)
+    paginator = Paginator(events, 10)
     page_number = request.GET.get('page', 1)
     
     try:
