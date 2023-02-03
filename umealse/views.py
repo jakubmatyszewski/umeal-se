@@ -1,12 +1,20 @@
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, get_object_or_404
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render
+from taggit.models import Tag
+
 from .models import Event
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-def event_list(request: HttpRequest) -> HttpResponse:
+def event_list(request: HttpRequest, tag_slug: str = '') -> HttpResponse:
     '''Generate view enlisting all published events.'''
     events = Event.published.all()
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        print(tag)
+        events = events.filter(tags__in=[tag])
+
     paginator = Paginator(events, 10)
     page_number = request.GET.get('page', 1)
     
@@ -17,7 +25,7 @@ def event_list(request: HttpRequest) -> HttpResponse:
     except EmptyPage:
         events = paginator.page(paginator.num_pages)
 
-    return render(request, 'umealse/event/list.html', {'events': events})
+    return render(request, 'umealse/event/list.html', {'events': events, 'tag': tag})
 
 
 def event_detail(request: HttpRequest, id: int) -> HttpResponse:

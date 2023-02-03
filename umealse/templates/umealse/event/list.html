@@ -3,6 +3,9 @@
 {% block title %} umeal.se {% endblock %}
 
 {% block content %}
+    {% if tag %}
+        <p>Events tagged with "{{ tag.name }}"</p>
+    {% endif %}
     {% for event in events %}
     <div>
         <h2>
@@ -10,7 +13,16 @@
                 {{ event.title }}
             </a>
         </h2>
-        <p class="tags">Tags: {{ event.tags.all|join:", " }}</p>
+        <p class="tags">
+            Tags:
+            <!-- {{ event.tags.all|join:", " }} -->
+            {% for tag in event.tags.all %}
+            <a href="{% url 'umealse:event_list_by_tag' tag.slug %}">
+                {{ tag.name }}
+            </a>
+            {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
         <p class="date">Published {{ event.publish }} by {{ event.host }}</p>
         <div>
             {{ event.body|truncatewords:30|linebreaks }}
