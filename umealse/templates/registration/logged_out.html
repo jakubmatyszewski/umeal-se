@@ -1,0 +1,11 @@
+{% extends "umealse/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <h1>Logged out</h1>
+    <p>
+        You have been successfully logged out.
+        You can <a href="{% url 'login' %}">log in</a> again.
+    </p>
+{% endblock %}

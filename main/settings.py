@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 import sys
+import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -37,20 +38,20 @@ DB_PORT = os.getenv('DB_PORT')
 
 
 if not all([DB_PORT, DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
-    print("DB environment variables are not set.")
-    print("Exiting...")
+    logging.error("DB environment variables are not set.")
+    logging.error("Exiting...")
     sys.exit(1)
 
 # Application definition
 
 INSTALLED_APPS = [
+    'umealse.apps.UmealseConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'umealse.apps.UmealseConfig',
     'taggit',
 ]
 
@@ -140,3 +141,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Log in / log out settings
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'

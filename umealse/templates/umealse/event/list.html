@@ -15,11 +15,10 @@
         </h2>
         <p class="tags">
             Tags:
-            <!-- {{ event.tags.all|join:", " }} -->
             {% for tag in event.tags.all %}
-            <a href="{% url 'umealse:event_list_by_tag' tag.slug %}">
-                {{ tag.name }}
-            </a>
+                <a href="{% url 'event_list_by_tag' tag.slug %}">
+                    {{ tag.name }}
+                </a>
             {% if not forloop.last %}, {% endif %}
             {% endfor %}
         </p>
