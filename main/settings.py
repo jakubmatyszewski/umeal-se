@@ -14,6 +14,7 @@ import os
 import sys
 import logging
 from pathlib import Path
+from typing import List
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,7 +29,11 @@ if not SECRET_KEY:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# DEV: e-mail backend for development
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ALLOWED_HOSTS: List[str] = []
 
 DB_NAME = os.getenv('DB_NAME')
 DB_USER = os.getenv('DB_USER')
