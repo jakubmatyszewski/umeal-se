@@ -3,11 +3,13 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.dashboard, name="dashboard"),
-    path('events/', views.event_list, name="event_list"),
-
     # auth urls
     path('', include('django.contrib.auth.urls')),
+    path('register', views.register, name='register'),
+
+    # umealse
+    path('', views.dashboard, name="dashboard"),
+    path('events/', views.event_list, name="event_list"),
 
     # events urls
     path('tag/<slug:tag_slug>/', views.event_list, name="event_list_by_tag"),
