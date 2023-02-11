@@ -1,8 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils import timezone
 from django.db.models.query import QuerySet
 from django.urls import reverse
+from django.utils import timezone
 from taggit.managers import TaggableManager
 
 
@@ -13,13 +14,12 @@ class PublishedManager(models.Manager):
 
 class Event(models.Model):
     class Status(models.TextChoices):
-        DRAFT = 'DF', 'Draft'
-        PUBLISHED = 'PB', "Published"
+        DRAFT = "DF", "Draft"
+        PUBLISHED = "PB", "Published"
 
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
-    host = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='events')
+    host = models.ForeignKey(User, on_delete=models.CASCADE, related_name="events")
     attendees = models.ManyToManyField(User, blank=True)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
@@ -28,22 +28,30 @@ class Event(models.Model):
     updated = models.DateTimeField(auto_now=True)
     private = models.BooleanField(default=False)
     status = models.CharField(
-        max_length=2, choices=Status.choices, default=Status.DRAFT)
+        max_length=2, choices=Status.choices, default=Status.DRAFT
+    )
 
     objects = models.Manager()
     published = PublishedManager()
 
     tags = TaggableManager(blank=True)
 
-
     class Meta:
-        ordering = ['-event_date']
+        ordering = ["-event_date"]
         indexes = [
-            models.Index(fields=['-event_date']),
+            models.Index(fields=["-event_date"]),
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
-    
-    def get_absolute_url(self):
-        return reverse('event_detail', args=[self.id])
+
+    def get_absolute_url(self) -> str:
+        return reverse("event_detail", args=[self.id])
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="users/", blank=True)
+
+    def __str__(self) -> str:
+        return f"Profile of {self.user.username}"
