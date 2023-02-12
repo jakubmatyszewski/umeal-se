@@ -6,6 +6,7 @@ urlpatterns = [
     # auth urls
     path('', include('django.contrib.auth.urls')),
     path('register', views.register, name='register'),
+    path('profile/edit', views.edit_profile, name='edit_profile'),
 
     # umealse
     path('', views.dashboard, name="dashboard"),
