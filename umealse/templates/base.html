@@ -8,7 +8,7 @@
     <body>
         <div id="header">
             <span class="logo">
-                <a href="{% url 'dashboard' %}">umeal.se</a>
+                <a href="{% url 'landing_page' %}">umeal.se</a>
             </span>
             <ul class="menu">
                 <li {% if section == "dashboard" %}class="selected"{% endif %}>
@@ -28,7 +28,19 @@
             </span>
             <hr>
         </div>
-        {% block content %}
-        {% endblock %}
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">x</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
     </body>
 </html>

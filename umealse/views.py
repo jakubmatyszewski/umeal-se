@@ -1,11 +1,17 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from taggit.models import Tag
 
 from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
 from .models import Event, Profile
+
+
+def landing_page(request: HttpRequest) -> HttpResponse:
+    '''Root page seen by all (registered or not) users.'''
+    return render(request, 'landing_page.html')
 
 
 @login_required
@@ -73,6 +79,9 @@ def edit_profile(request: HttpRequest) -> HttpResponse:
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request, "Profile updated successfully.")
+        else:
+            messages.error(request, "Error updating your profile.")
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)

@@ -9,7 +9,8 @@ urlpatterns = [
     path('profile/edit', views.edit_profile, name='edit_profile'),
 
     # umealse
-    path('', views.dashboard, name="dashboard"),
+    path('', views.landing_page, name="landing_page"),
+    path('dashboard/', views.dashboard, name="dashboard"),
     path('events/', views.event_list, name="event_list"),
 
     # events urls
