@@ -1,17 +1,17 @@
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from taggit.models import Tag
 
-from .forms import UserRegistrationForm, UserEditForm, ProfileEditForm
-from .models import Event, Profile
+from .forms import ProfileEditForm, UserEditForm, UserRegistrationForm
+from .models import Event, Profile, Friendship
 
 
 def landing_page(request: HttpRequest) -> HttpResponse:
-    '''Root page seen by all (registered or not) users.'''
-    return render(request, 'landing_page.html')
+    """Root page seen by all (registered or not) users."""
+    return render(request, "landing_page.html")
 
 
 @login_required
@@ -59,6 +59,7 @@ def register(request: HttpRequest) -> HttpResponse:
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
+            new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
             Profile.objects.create(user=new_user)
             return render(request, "account/register_done.html", {"new_user": new_user})
