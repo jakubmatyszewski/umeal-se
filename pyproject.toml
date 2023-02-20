@@ -1,0 +1,24 @@
+[project]
+name = "umealse"
+description = "An app for foodsharing with friends."
+authors = [
+    { name = "Jakub Matyszewski", email = "jmatyszewski@protonmail.com" },
+]
+license = { text = "GNU AGPLv3" }
+requires-python = ">=3.7"
+classifiers = ["Framework :: Django", "Programming Language :: Python :: 3"]
+dependencies = [
+    "django",
+    "python-dotenv",
+    "django-taggit",
+    "psycopg2",
+    "Pillow",
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = { attr = "umealse.__version__" }
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
