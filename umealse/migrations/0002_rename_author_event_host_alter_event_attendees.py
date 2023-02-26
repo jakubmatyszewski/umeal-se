@@ -5,21 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('umealse', '0001_initial'),
+        ("umealse", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='event',
-            old_name='author',
-            new_name='host',
+            model_name="event",
+            old_name="author",
+            new_name="host",
         ),
         migrations.AlterField(
-            model_name='event',
-            name='attendees',
+            model_name="event",
+            name="attendees",
             field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL),
         ),
     ]

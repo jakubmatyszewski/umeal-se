@@ -17,7 +17,7 @@
                 <li {% if section == "events" %}class="selected"{% endif %}>
                     <a href="{% url 'event_list' %}">Events</a>
                 </li>
-            </ul>   
+            </ul>
             <span class="user">
                 Hello {{ request.user.first_name|default:request.user.username }}
                 {% if request.user.is_authenticated %}

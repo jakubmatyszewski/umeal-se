@@ -13,6 +13,8 @@ dependencies = [
     "django-taggit",
     "psycopg2",
     "Pillow",
+    "pre-commit",
+    "pytest-django",
 ]
 dynamic = ["version"]
 
