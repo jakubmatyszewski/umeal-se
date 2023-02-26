@@ -7,4 +7,27 @@
     <p>
         Welcome to your dashboard. You can <a href="{% url 'edit_profile' %}">edit your profile</a> or <a href="{% url 'password_change' %}">change your password</a>.
     </p>
+    <div class="socials">
+        Friends:
+        <ul>
+            {% for friend in request.user.profile.friends.all %}
+            <li>
+                <a href="{% url 'profile' username=friend %}">{{ friend }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% if request.user.profile.get_friend_requests %}
+            You have friend invites from:
+            <ul>
+            {% for friend_request in request.user.profile.get_friend_requests %}
+                <li>
+                    {{ friend_request.from_user }}
+                    <a href="{% url 'accept_friend_request' requestID=friend_request.id %}">Accept</a>
+                    |
+                    <a href="{% url 'reject_friend_request' requestID=friend_request.id %}">Reject</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}
