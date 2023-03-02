@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.text import slugify
 from taggit.models import Tag
 
-from .forms import ProfileEditForm, UserEditForm, UserRegistrationForm
-from .models import Event, Profile, Friendship
+from .forms import EventAddForm, ProfileEditForm, UserEditForm, UserRegistrationForm
+from .models import Event, Friendship, Profile
 
 
 def landing_page(request: HttpRequest) -> HttpResponse:
@@ -47,6 +48,29 @@ def event_detail(request: HttpRequest, id: int) -> HttpResponse:
     event = get_object_or_404(Event, id=id, status=Event.Status.PUBLISHED)
 
     return render(request, "event/detail.html", {"event": event, "section": "events"})
+
+
+@login_required
+def add_event(request: HttpRequest) -> HttpResponse:
+    """Create an event."""
+    if request.method == "POST":
+        add_event_form = EventAddForm(request.POST)
+        if add_event_form.is_valid():
+            new_event = add_event_form.save(commit=False)
+            new_event.host_id = request.user.id
+            new_event.slug = slugify(new_event.title)
+            new_event.save()
+            add_event_form.save_m2m()
+            return redirect("event_detail", id=new_event.id)
+    else:
+        add_event_form = EventAddForm()
+
+    return render(request, "event/add_event.html", {"add_event_form": add_event_form})
+
+
+@login_required
+def invite_to_event(request: HttpRequest, id: int) -> HttpResponse:
+    ...
 
 
 @login_required

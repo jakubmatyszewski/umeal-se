@@ -27,6 +27,8 @@ urlpatterns = [
     path("delete_friend/<int:userID>", views.delete_friend, name="delete_friend"),
     # events urls
     path("events/", views.event_list, name="event_list"),
+    path("events/add", views.add_event, name="add_event"),
     path("tag/<slug:tag_slug>/", views.event_list, name="event_list_by_tag"),
     path("event/<int:id>", views.event_detail, name="event_detail"),
+    path("event/<int:id>", views.invite_to_event, name="invite_to_event"),
 ]

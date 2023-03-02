@@ -28,7 +28,7 @@ class Event(models.Model):
     updated = models.DateTimeField(auto_now=True)
     private = models.BooleanField(default=False)
     status = models.CharField(
-        max_length=2, choices=Status.choices, default=Status.DRAFT
+        max_length=2, choices=Status.choices, default=Status.PUBLISHED
     )
 
     objects = models.Manager()

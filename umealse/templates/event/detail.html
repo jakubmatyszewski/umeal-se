@@ -4,4 +4,30 @@
 
 {% block content %}
     <h1>{{ event.title }}</h1>
+    <div>{{ event.event_date }}</div>
+    {% if even.private %}
+        <div>Private</div>
+    {% else %}
+        <div>Public</div>
+    {% endif %}
+    <div>{{ event.body }}</div>
+    <div>Tags:
+        {% for tag in event.tags.all %}
+            {{ tag }}
+            {% if  not forloop.last %}
+                |
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div>Attendees:
+        {% for attendee in event.attendees.all %}
+            {{ attendee }}
+            {% if  not forloop.last %}
+                |
+            {% endif %}
+        {% endfor %}
+        {% if event.host_id == request.user.id %}
+            <a href="{% url  'invite_to_event' id=event.id %}">Invite</a>
+        {% endif %}
+    </div>
 {% endblock %}
